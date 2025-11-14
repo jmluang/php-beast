@@ -583,11 +583,6 @@ int beast_super_mkdir(char *path)
 zend_op_array *
 cgi_compile_file(zend_file_handle *h, int type TSRMLS_DC)
 {
-#if ZEND_MODULE_API_NO >= 20151012
-    zend_string *opened_path;
-#else
-    char *opened_path;
-#endif
     char *buf;
     int fd;
     FILE *fp = NULL;
@@ -598,11 +593,23 @@ cgi_compile_file(zend_file_handle *h, int type TSRMLS_DC)
     const char *filename = NULL;
 
 #if ZEND_MODULE_API_NO >= 20200930
-    if (h->filename) {
+    if (h->opened_path) {
+        filename = ZSTR_VAL(h->opened_path);
+    } else if (h->filename) {
         filename = ZSTR_VAL(h->filename);
     }
+#elif ZEND_MODULE_API_NO >= 20151012
+    if (h->opened_path) {
+        filename = ZSTR_VAL(h->opened_path);
+    } else {
+        filename = h->filename;
+    }
 #else
-    filename = h->filename;
+    if (h->opened_path) {
+        filename = h->opened_path;
+    } else {
+        filename = h->filename;
+    }
 #endif
 
     if (filename == NULL) {
