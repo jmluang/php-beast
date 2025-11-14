@@ -605,6 +605,19 @@ cgi_compile_file(zend_file_handle *h, int type)
     int retval;
     struct beast_ops *ops = NULL;
     int destroy_file_handler = 0;
+    const char *filename = NULL;
+
+#if ZEND_MODULE_API_NO >= 20200930
+    if (h->filename) {
+        filename = ZSTR_VAL(h->filename);
+    }
+#else
+    filename = h->filename;
+#endif
+
+    if (filename == NULL) {
+        goto final;
+    }
 
 #if PHP_API_VERSION > 20200930
     const char *filename = ZSTR_VAL(h->filename);
@@ -649,7 +662,7 @@ cgi_compile_file(zend_file_handle *h, int type)
 
             char realpath[1024];
 
-            sprintf(realpath, "%s/%s", beast_debug_path, h->filename);
+            sprintf(realpath, "%s/%s", beast_debug_path, filename);
 
             if (beast_super_mkdir(realpath) == 0) {
 
@@ -1467,8 +1480,12 @@ PHP_FUNCTION(beast_file_expire)
     int header_len;
     signed long expire = 0;
     int fd = -1;
-    char *string;
     char *format = "Y-m-d H:i:s";
+#if PHP_VERSION_ID >= 80000
+    zend_string *date_string;
+#else
+    char *string;
+#endif
 
 #if ZEND_MODULE_API_NO >= 20151012
 
@@ -1517,6 +1534,7 @@ PHP_FUNCTION(beast_file_expire)
     if (expire > 0) {
         string = (char *)php_format_date(format, strlen(format), expire, 1);
         BEAST_RETURN_STRING(string, 0);
+#endif
     } else {
         BEAST_RETURN_STRING("+Infinity", 1);
     }
