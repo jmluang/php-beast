@@ -19,7 +19,7 @@ typedef struct cache_item_s {
 #define beast_cache_data(item)  (item)->data
 #define beast_cache_size(item)  (item)->key.fsize
 
-int beast_cache_init();
+int beast_cache_init(int size);
 cache_item_t *beast_cache_find(cache_key_t *key);
 cache_item_t *beast_cache_create(cache_key_t *key);
 cache_item_t *beast_cache_push(cache_item_t *item);

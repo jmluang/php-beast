@@ -615,15 +615,19 @@ cgi_compile_file(zend_file_handle *h, int type)
     filename = h->filename;
 #endif
 
+#if ZEND_MODULE_API_NO >= 20151012
+    if (filename == NULL && h->opened_path) {
+        filename = ZSTR_VAL(h->opened_path);
+    }
+#else
+    if (filename == NULL && h->opened_path) {
+        filename = h->opened_path;
+    }
+#endif
+
     if (filename == NULL) {
         goto final;
     }
-
-#if PHP_API_VERSION > 20200930
-    const char *filename = ZSTR_VAL(h->filename);
-#else
-    const char *filename = h->filename;
-#endif
 
 #if 0
     fp = zend_fopen(h->filename, &opened_path);
@@ -1532,6 +1536,10 @@ PHP_FUNCTION(beast_file_expire)
     }
 
     if (expire > 0) {
+#if PHP_VERSION_ID >= 80000
+        date_string = php_format_date(format, strlen(format), expire, 1);
+        RETURN_STR(date_string);
+#else
         string = (char *)php_format_date(format, strlen(format), expire, 1);
         BEAST_RETURN_STRING(string, 0);
 #endif
