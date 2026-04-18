@@ -1,0 +1,53 @@
+# ============================================================
+# PHP Extension (C) — Build Artifacts & Intermediate Files
+# ============================================================
+
+# --- Compiled object files ---
+*.o
+*.lo
+*.la
+*.a
+*.so
+*.so.*
+*.dylib
+
+# --- Libtool ---
+libtool
+.libs/
+.deps/
+
+# --- autoconf / automake generated files ---
+autom4te.cache/
+config.log
+config.status
+config.nice
+config.h
+configure
+Makefile
+Makefile.fragments
+Makefile.objects
+Makefile.global
+build/
+
+# --- PHP phpize / make output ---
+modules/
+include/
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Editors & IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Logs ---
+*.log
+
+# --- Temporary files ---
+*.tmp
+*.bak
