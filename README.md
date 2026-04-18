@@ -9,7 +9,6 @@
 @imaben (windows版本提供者)  https://github.com/imaben
 @pinguo-niulingyun (PHP7版本提供者) https://github.com/pinguo-niulingyun
 
-QQ交流群：239243332
 </pre>
 
 <b>Windows DLL：<a href="https://github.com/imaben/php-beast-binaries">下载地址</a></b>
@@ -18,9 +17,6 @@ QQ交流群：239243332
 
 <h3>编译安装如下:</h3>
 <pre><code>
-$ wget https://github.com/liexusong/php-beast/archive/master.zip
-$ unzip master.zip
-$ cd php-beast-master
 $ phpize
 $ ./configure
 $ sudo make && make install
@@ -144,11 +140,5 @@ char *allow_networkcards[] = {
 *1.* linux：如果出现502错误，一般是由于GCC版本太低导致，请先升级GCC再安装本模块。
 
 *2.* Windows：IIS环境下FastCGI进程异常退出：尝试将IIS的运行用户从ApplicationPoolIdentity改为LocalSystem
-
-------------------------------
-
-### 我们的公众号
-
-![](https://image-static.segmentfault.com/376/558/3765589661-607fef350658b_fix732)
 
 ------------------------------
